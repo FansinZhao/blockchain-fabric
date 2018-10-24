@@ -1,4 +1,7 @@
 blockchain:
+  tlsPemRootDir: "/home/zhaofeng/IdeaProjects/gitee-fabric/fabric-api/src/main/resources/"
+  storageType: file
+  storageRootDir:
   name: "account"
   caClient:
     url: "https://127.0.0.1:7054"

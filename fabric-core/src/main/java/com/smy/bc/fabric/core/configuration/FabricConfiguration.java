@@ -3,6 +3,7 @@ package com.smy.bc.fabric.core.configuration;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.NetUtil;
+import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
 import com.smy.bc.fabric.core.HFUser;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PrivateKey;
@@ -49,6 +47,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class FabricConfiguration {
 
     private String name = "account";
+    private String storageType = "file";
+    private String storageRootDir;
     private CAClient caClient = new CAClient();
     private Organization organization = new Organization();
     private String channelName ="mychannel";
@@ -174,15 +174,25 @@ public class FabricConfiguration {
         return hfUser;
     }
 
+
+    public String getRootDir(){
+        if ("file".equalsIgnoreCase(storageType) && StrUtil.isNotBlank(storageRootDir)){
+            return StrUtil.trimToEmpty(storageRootDir)+ File.separator;
+        }else{
+            return StrUtil.EMPTY;
+        }
+    }
+
     public void serialize(HFUser hfUser) throws IOException {
+
         try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(
-                Paths.get(hfUser.getName() + ".tail")))) {
+                Paths.get(getRootDir()+hfUser.getName() + ".tail")))) {
             oos.writeObject(hfUser);
         }
     }
 
     public HFUser tryDeserialize(String name) throws Exception {
-        if (Files.exists(Paths.get(name + ".tail"))) {
+        if (Files.exists(Paths.get(getRootDir()+name + ".tail"))) {
             return deserialize(name);
         }
         return null;
@@ -190,7 +200,7 @@ public class FabricConfiguration {
 
     public HFUser deserialize(String name) throws Exception {
         try (ObjectInputStream decoder = new ObjectInputStream(
-                Files.newInputStream(Paths.get(name + ".tail")))) {
+                Files.newInputStream(Paths.get(getRootDir()+name + ".tail")))) {
             return (HFUser) decoder.readObject();
         }
     }
@@ -218,7 +228,7 @@ public class FabricConfiguration {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CAClient {
+    public class CAClient {
 
         private String url ="http://127.0.0.1:7054";
         private Boolean tlsEnable = false;
@@ -226,20 +236,13 @@ public class FabricConfiguration {
         private String adminUser = "admin";
         private String adminSecret = "adminpw";
 
-        public void setCaClientProperties(Properties properties) {
-            if (properties.containsKey("pemFile")){
-                String path = ClassUtil.getClassPath();
-                properties.put("pemFile",path+properties.get("pemFile"));
-            }
-            this.caClientProperties = properties;
-        }
     }
 
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Organization {
+    public class Organization {
         private String name="peerOrg1";
         private String user ="user1";
         private String mspid="Org1MSP";
@@ -249,7 +252,7 @@ public class FabricConfiguration {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class EndPoint {
+    public class EndPoint {
         private String name;
         private String url;
         private Properties properties;
