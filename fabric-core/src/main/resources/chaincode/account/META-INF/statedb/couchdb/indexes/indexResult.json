@@ -1,0 +1,14 @@
+{
+  "index": {
+    "fields": [
+      "orderId",
+      "nccTxId",
+      "ctsTxId",
+      "status"
+    ]
+  },
+  "ddoc": "indexResultDoc",
+  "name": "indexResult",
+  "type": "json"
+}
+

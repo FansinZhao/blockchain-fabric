@@ -1,0 +1,64 @@
+blockchain:
+  name: "account"
+  caClient:
+    url: "https://127.0.0.1:7054"
+    adminUser: "admin"
+    adminSecret: "adminpw"
+    tlsEnable: true
+    caClientProperties:
+      allowAllHostNames: true
+      #classpath: *.pem
+      pemFile: "crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+  organization:
+    user: "fansin"
+    name: "peerOrg1"
+    mspid: "Org2MSP"
+    affiliation: "org1"
+    channel-name: "mychannel"
+  channelPeers:
+  - name: anchor0
+    url: "grpcs://127.0.0.1:7051"
+    properties:
+      pemFile: "crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+      hostnameOverride: "peer0.org1.example.com"
+  - name: anchor1
+    url: "grpcs://127.0.0.1:9051"
+    properties:
+      pemFile: "crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+      hostnameOverride: "peer0.org2.example.com"
+  channelOrders:
+  - name: order
+    url: "grpcs://127.0.0.1:7050"
+    properties:
+      pemFile: "crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
+      hostnameOverride: "orderer.example.com"
+
+  channelEvents:
+  - name: eventHub1
+    url: "grpcs://127.0.0.1:7053"
+    properties:
+      pemFile: "crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+      hostnameOverride: "peer0.org1.example.com"
+  - name: eventHub1
+    url: "grpcs://127.0.0.1:8053"
+    properties:
+      pemFile: "crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+      hostnameOverride: "peer0.org1.example.com"
+
+# DataSource Config
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/smy_bc?charset=utf8&useSSL=false
+    password: root
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis-plus:
+  mapper-locations: classpath*:mybatis/*.xml
+
+#logging
+logging:
+  level:
+    root: info
+    com.baomidou.mybatisplus: debug
+    com.smy.bc.fabric: debug
+  file: ./logs/fabric.log

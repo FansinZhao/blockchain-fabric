@@ -1,0 +1,17 @@
+version: '2'
+
+networks:
+  byfn:
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ../sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - 3306:3306
+    networks:
+      - byfn
