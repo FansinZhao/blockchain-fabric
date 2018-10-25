@@ -1,6 +1,7 @@
 package com.smy.bc.fabric.core.configuration;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.NetUtil;
 import cn.hutool.core.util.StrUtil;
@@ -199,8 +200,13 @@ public class FabricConfiguration {
     }
 
     public HFUser deserialize(String name) throws Exception {
+        String rootDir = getRootDir();
+        File rootFile = new File(rootDir);
+        rootFile.setReadable(true);
+        rootFile.setWritable(true);
+        FileUtil.mkdir(rootDir);
         try (ObjectInputStream decoder = new ObjectInputStream(
-                Files.newInputStream(Paths.get(getRootDir()+name + ".tail")))) {
+                Files.newInputStream(Paths.get(rootDir +name + ".tail")))) {
             return (HFUser) decoder.readObject();
         }
     }
@@ -219,8 +225,12 @@ public class FabricConfiguration {
 
     public Properties getRealPath(Properties properties){
         if (properties.containsKey("pemFile")){
-            String path = ClassUtil.getClassPath();
-            properties.put("pemFile",path+properties.get("pemFile"));
+            String pemFile = properties.getProperty("pemFile");
+            if(properties.getProperty("pemFile").startsWith("classpath:")){
+                pemFile = pemFile.replaceFirst("classpath:",ClassUtil.getClassPath());
+            }
+            pemFile = pemFile.replaceAll("//","/");
+            properties.put("pemFile",pemFile);
         }
         return properties;
     }

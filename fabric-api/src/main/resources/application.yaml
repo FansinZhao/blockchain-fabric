@@ -11,7 +11,7 @@ blockchain:
     caClientProperties:
       allowAllHostNames: true
       #classpath: *.pem
-      pemFile: "crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   organization:
     user: "fansin"
     name: "peerOrg1"
@@ -22,30 +22,30 @@ blockchain:
   - name: anchor0
     url: "grpcs://127.0.0.1:7051"
     properties:
-      pemFile: "crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
       hostnameOverride: "peer0.org1.example.com"
   - name: anchor1
     url: "grpcs://127.0.0.1:9051"
     properties:
-      pemFile: "crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
       hostnameOverride: "peer0.org2.example.com"
   channelOrders:
   - name: order
     url: "grpcs://127.0.0.1:7050"
     properties:
-      pemFile: "crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
+      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
       hostnameOverride: "orderer.example.com"
 
   channelEvents:
   - name: eventHub1
     url: "grpcs://127.0.0.1:7053"
     properties:
-      pemFile: "crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
       hostnameOverride: "peer0.org1.example.com"
   - name: eventHub1
     url: "grpcs://127.0.0.1:8053"
     properties:
-      pemFile: "crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
       hostnameOverride: "peer0.org1.example.com"
 
 # DataSource Config
