@@ -17,7 +17,7 @@ blockchain:
     name: "peerOrg1"
     mspid: "Org2MSP"
     affiliation: "org1"
-    channel-name: "mychannel"
+    channelName: "mychannel"
   channelPeers:
   - name: anchor0
     url: "grpcs://127.0.0.1:7051"
