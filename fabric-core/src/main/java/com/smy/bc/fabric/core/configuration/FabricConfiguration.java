@@ -178,6 +178,10 @@ public class FabricConfiguration {
 
     public String getRootDir(){
         if ("file".equalsIgnoreCase(storageType) && StrUtil.isNotBlank(storageRootDir)){
+            File rootFile = new File(storageRootDir);
+            rootFile.setReadable(true);
+            rootFile.setWritable(true);
+            FileUtil.mkdir(storageRootDir);
             return StrUtil.trimToEmpty(storageRootDir)+ File.separator;
         }else{
             return StrUtil.EMPTY;
@@ -201,10 +205,6 @@ public class FabricConfiguration {
 
     public HFUser deserialize(String name) throws Exception {
         String rootDir = getRootDir();
-        File rootFile = new File(rootDir);
-        rootFile.setReadable(true);
-        rootFile.setWritable(true);
-        FileUtil.mkdir(rootDir);
         try (ObjectInputStream decoder = new ObjectInputStream(
                 Files.newInputStream(Paths.get(rootDir +name + ".tail")))) {
             return (HFUser) decoder.readObject();
