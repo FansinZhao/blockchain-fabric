@@ -228,7 +228,7 @@ public class FabricConfiguration {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public class CAClient {
+    public static class CAClient {
 
         private String url ="http://127.0.0.1:7054";
         private Boolean tlsEnable = false;
@@ -242,7 +242,7 @@ public class FabricConfiguration {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public class Organization {
+    public static class Organization {
         private String name="peerOrg1";
         private String user ="user1";
         private String mspid="Org1MSP";
@@ -252,7 +252,7 @@ public class FabricConfiguration {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public class EndPoint {
+    public static class EndPoint {
         private String name;
         private String url;
         private Properties properties;
