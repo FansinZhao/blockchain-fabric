@@ -10,14 +10,13 @@ blockchain:
     tlsEnable: true
     caClientProperties:
       allowAllHostNames: true
-      #classpath: *.pem
       pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
   organization:
     user: "fansin"
     name: "peerOrg1"
-    mspid: "Org2MSP"
+    mspid: "Org1MSP"
     affiliation: "org1"
-    channelName: "mychannel"
+  channelName: "mychannel"
   channelPeers:
   - name: anchor0
     url: "grpcs://127.0.0.1:7051"
