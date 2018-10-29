@@ -1,22 +1,21 @@
 package com.smy.bc.fabric.core.mybatis.entity;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 /**
  * <p>
- * 
+ * 借款订单表
  * </p>
  *
  * @author zhaofeng
- * @since 2018-09-29
+ * @since 2018-10-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,14 +28,14 @@ public class TClrOrder implements Serializable {
     private Long id;
 
     /**
-     * 系统码
-     */
-    private String sysCode;
-
-    /**
      * 订单id
      */
     private String orderId;
+
+    /**
+     * 系统码
+     */
+    private String sysCode;
 
     /**
      * 客户号
@@ -74,9 +73,14 @@ public class TClrOrder implements Serializable {
     private String status;
 
     /**
-     * 账务日期
+     * 订单账务日期
      */
     private Integer actDate;
+
+    /**
+     * 订单日期
+     */
+    private LocalDateTime orderDatetime;
 
     /**
      * 扩展信息

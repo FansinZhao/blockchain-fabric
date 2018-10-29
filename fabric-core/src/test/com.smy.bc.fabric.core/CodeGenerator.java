@@ -91,7 +91,7 @@ public class CodeGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
 //        strategy.setSuperControllerClass("com.smy.bc.fabric.BaseController");
-        strategy.setInclude("t_clr_order_result");
+        strategy.setInclude("t_clr_order");
 //        strategy.setSuperEntityColumns("req_id");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");

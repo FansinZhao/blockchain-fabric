@@ -8,9 +8,9 @@ import com.google.gson.Gson;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.smy.bc.fabric.core.FabricTemplate;
 import com.smy.bc.fabric.core.mybatis.entity.TClrOrder;
-import com.smy.bc.fabric.core.mybatis.entity.TClrOrderResult;
-import com.smy.bc.fabric.core.mybatis.service.ITClrOrderResultService;
+import com.smy.bc.fabric.core.mybatis.entity.TClrResult;
 import com.smy.bc.fabric.core.mybatis.service.ITClrOrderService;
+import com.smy.bc.fabric.core.mybatis.service.ITClrResultService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hyperledger.fabric.protos.common.Common;
 import org.hyperledger.fabric.protos.peer.PeerEvents;
 import org.hyperledger.fabric.sdk.BlockInfo;
-import org.hyperledger.fabric.sdk.ProposalResponse;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.hyperledger.fabric.sdk.exception.ProposalException;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.concurrent.ExecutionException;
 
 /**
  * <p>Title: FabricApiController</p>
@@ -53,7 +50,7 @@ public class FabricApiController {
     private ITClrOrderService orderService;
 
     @Resource
-    private ITClrOrderResultService resultService;
+    private ITClrResultService resultService;
 
 
     @ApiOperation("org2/cts 保存数据到bc")
@@ -76,10 +73,10 @@ public class FabricApiController {
         if (clrOrder != null) {
             //2 查询对账表
             //直接查询db
-            QueryWrapper<TClrOrderResult> resultQW = new QueryWrapper<>();
+            QueryWrapper<TClrResult> resultQW = new QueryWrapper<>();
             resultQW.eq("order_id", order.getOrderId());
             resultQW.orderByDesc("update_datetime");
-            TClrOrderResult orderResult = resultService.getOne(resultQW);
+            TClrResult orderResult = resultService.getOne(resultQW);
 
             if (orderResult != null) {
                 log.info("查询DB数据id:{} orderId:{} result：{}", orderResult.getId(), orderResult.getOrderId(), orderResult);
@@ -91,7 +88,7 @@ public class FabricApiController {
                 String result = fabricTemplate.queryByChaincode("account", "query", order.getOrderId());
                 if (StrUtil.isNotBlank(result)) {
                     //保存到db对账状态
-                    TClrOrderResult orderResult1 = new Gson().newBuilder().create().fromJson(result, TClrOrderResult.class);
+                    TClrResult orderResult1 = new Gson().newBuilder().create().fromJson(result, TClrResult.class);
                     boolean save = resultService.save(orderResult1);
                     log.info("保存结果:{} {}",save,orderResult1.getId());
                     return result;

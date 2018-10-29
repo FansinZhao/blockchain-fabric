@@ -1,15 +1,15 @@
 package com.smy.bc.fabric.core.mybatis.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.smy.bc.fabric.core.mybatis.entity.TClrOrder;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- *  Mapper 接口
+ * 借款订单表 Mapper 接口
  * </p>
  *
  * @author zhaofeng
- * @since 2018-09-29
+ * @since 2018-10-26
  */
 public interface TClrOrderMapper extends BaseMapper<TClrOrder> {
 
