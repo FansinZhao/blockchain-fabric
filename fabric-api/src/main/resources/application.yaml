@@ -41,11 +41,11 @@ blockchain:
     properties:
       pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
       hostnameOverride: "peer0.org1.example.com"
-  - name: eventHub1
+  - name: eventHub2
     url: "grpcs://127.0.0.1:8053"
     properties:
-      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
-      hostnameOverride: "peer0.org1.example.com"
+      pemFile: "${blockchain.tlsPemRootDir}/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+      hostnameOverride: "peer0.org2.example.com"
 
 # DataSource Config
 spring:

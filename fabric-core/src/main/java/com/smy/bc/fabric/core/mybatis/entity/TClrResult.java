@@ -1,6 +1,5 @@
 package com.smy.bc.fabric.core.mybatis.entity;
 
-import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
@@ -11,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 借款订单表
+ * 对账结果表
  * </p>
  *
  * @author zhaofeng
@@ -20,7 +19,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class TClrOrder implements Serializable {
+public class TClrResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,79 +37,54 @@ public class TClrOrder implements Serializable {
     private String sysCode;
 
     /**
-     * 客户号
-     */
-    private String custNo;
-
-    /**
-     * 银行卡号
-     */
-    private String bankCardNo;
-
-    /**
-     * 资金方编码
-     */
-    private String captitalCode;
-
-    /**
-     * 子资金方编码
-     */
-    private String captitalSubCode;
-
-    /**
-     * 借款金额
-     */
-    private BigDecimal transAmt;
-
-    /**
-     * 借款期次
-     */
-    private Integer term;
-
-    /**
-     * 状态
-     */
-    private String status;
-
-    /**
      * 订单账务日期
      */
     private Integer actDate;
 
     /**
-     * 订单日期
+     * 对账次数
      */
-    private LocalDateTime orderDatetime;
+    private Integer clrRetryTimes;
 
     /**
-     * 扩展信息
+     * 对账关闭时间
      */
-    private String extMsg;
+    private LocalDateTime clrCloseDatetime;
 
     /**
-     * 备注
+     * 对账完成状态 未完成;不存在;平;不平
      */
-    private String remark;
+    private String clrStatus;
 
     /**
-     * 存证状态
+     * nccTxId
      */
-    private String blockStatus;
+    private String nccTxId;
 
     /**
-     * 存证异常码
+     * ctsTxId
      */
-    private String blockErrCode;
+    private String ctsTxId;
 
     /**
-     * 存证异常描述
+     * 对账不平code码
      */
-    private String blockErrMsg;
+    private String clrCode;
+
+    /**
+     * 对账不平结果描述
+     */
+    private String clrMsg;
+
+    /**
+     * 对账不平信息json明细
+     */
+    private String clrJsonMsg;
 
     /**
      * 区块号
      */
-    private Long blockNumber;
+    private Integer blockNumber;
 
     /**
      * 当前hash
@@ -126,6 +100,16 @@ public class TClrOrder implements Serializable {
      * 交易id
      */
     private String txId;
+
+    /**
+     * 对账结束时间
+     */
+    private LocalDateTime clrEndDatetime;
+
+    /**
+     * 版本号
+     */
+    private Integer version;
 
     /**
      * 创建日期时间

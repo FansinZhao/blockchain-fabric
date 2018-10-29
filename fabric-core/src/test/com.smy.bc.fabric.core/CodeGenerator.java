@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -40,8 +41,8 @@ public class CodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath +"/fabric-core/"+ "/src/main/java");
+        String projectPath = System.getProperty("user.dir") + "/fabric-core/";
+        gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("zhaofeng");
         gc.setOpen(false);
         gc.setFileOverride(true);
@@ -60,9 +61,7 @@ public class CodeGenerator {
         PackageConfig pc = new PackageConfig();
 //        pc.setModuleName("mybatis");
         pc.setParent("com.smy.bc.fabric.core.mybatis");
-        pc.setXml("mybatis.mapper");
         mpg.setPackageInfo(pc);
-
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -70,18 +69,18 @@ public class CodeGenerator {
                 // to do nothing
             }
         };
-//        List<FileOutConfig> focList = new ArrayList<>();
-//        focList.add(new FileOutConfig("/templates/mybatis.xml.ftl") {
-//            @Override
-//            public String outputFile(TableInfo tableInfo) {
-//                // 自定义输入文件名称
-//                return projectPath + "/src/main/resources/mybatis/" + pc.getModuleName()
-//                       + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-//            }
-//        });
-//        cfg.setFileOutConfigList(focList);
+        List<FileOutConfig> focList = new ArrayList<>();
+        focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输入文件名称
+                return projectPath + "/src/main/resources/mybatis/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
+        cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
-        mpg.setTemplate(new TemplateConfig().setXml(null));
+        //自定义生成模块！
+        mpg.setTemplate(new TemplateConfig().setXml(null).setController(null));
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -91,13 +90,16 @@ public class CodeGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
 //        strategy.setSuperControllerClass("com.smy.bc.fabric.BaseController");
-        strategy.setInclude("t_clr_order");
+        strategy.setInclude("t_clr_order", "t_clr_result");
 //        strategy.setSuperEntityColumns("req_id");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
+
+        new File(projectPath + "/src/main/resources/mybatis/controller/").delete();
+
     }
 
 }
