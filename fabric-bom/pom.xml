@@ -39,6 +39,12 @@
                 <groupId>org.hyperledger.fabric-sdk-java</groupId>
                 <artifactId>fabric-sdk-java</artifactId>
                 <version>1.2.1</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons-logging</artifactId>
+                        <groupId>commons-logging</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -83,10 +89,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
